@@ -1,0 +1,38 @@
+name: "mattermost-gitlab-to-keycloak-oauth-adapter"
+
+deployment:
+  name: "mattermost-gitlab-to-keycloak-oauth-adapter"
+  replicas: 1
+  annotations: { }
+  labels: { }
+  affinity: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  image:
+    repository: "ghcr.io/chloyka/mattermost-gitlab-to-keycloak-oauth-adapter"
+    tag: "master"
+    pullPolicy: IfNotPresent
+    pullSecrets: [ ]
+  env: [ ]
+
+service:
+  name: "mattermost-gitlab-to-keycloak-oauth-adapter"
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  ingressClassName: ""
+  tls: [ ]
+  annotations: {}
+  rules:
+    - host: "gitlab.local"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: "mattermost-gitlab-to-keycloak-oauth-adapter"
+                port:
+                  number: 80

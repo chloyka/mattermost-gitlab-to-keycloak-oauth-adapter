@@ -43,4 +43,9 @@ func main() {
 
 		rp.ServeHTTP(w, r)
 	})
+
+	err = http.ListenAndServe(":80", server)
+	if err != nil {
+		panic(err)
+	}
 }
