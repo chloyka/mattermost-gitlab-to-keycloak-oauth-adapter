@@ -12,3 +12,5 @@ RUN chmod +x binary
 FROM scratch as run
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/binary /binary
+
+CMD ["/binary"]
