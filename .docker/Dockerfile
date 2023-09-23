@@ -10,5 +10,5 @@ RUN --mount=target=/go,type=cache CGO_ENABLED=0 GOOS=linux go build -a -installs
 RUN chmod +x binary
 
 FROM scratch as run
-COPY --from=build_code /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=build_code /app/binary /binary
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /app/binary /binary
