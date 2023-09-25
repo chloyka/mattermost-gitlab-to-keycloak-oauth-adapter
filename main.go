@@ -48,6 +48,7 @@ func main() {
 			rp.ServeHTTP(w, r)
 			log.Debug("token response", zap.String("url", r.URL.String()), zap.Int("status", w.(*responseWriterWithStatusCode).statusCode), zap.String("body", string(w.(*responseWriterWithStatusCode).body)))
 
+			w.WriteHeader(http.StatusOK)
 			return
 		}
 
@@ -58,8 +59,12 @@ func main() {
 			rp.ServeHTTP(w, r)
 			log.Debug("user info response", zap.String("url", r.URL.String()), zap.Int("status", w.(*responseWriterWithStatusCode).statusCode), zap.String("body", string(w.(*responseWriterWithStatusCode).body)))
 
+			w.WriteHeader(http.StatusOK)
 			return
 		}
+
+		w.WriteHeader(http.StatusNotFound)
+		return
 	})
 
 	err = http.ListenAndServe(":80", server)

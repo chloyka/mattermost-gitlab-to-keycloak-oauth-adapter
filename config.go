@@ -31,9 +31,9 @@ func newAppConfig() *Config {
 		Realm: getEnv("KEYCLOAK_REALM", "master"),
 	}
 
-	kcc.AuthUrl = kcc.Host + "/realms/" + kcc.Realm + "/protocol/openid-connect/auth"
-	kcc.TokenUrl = kcc.Host + "/realms/" + kcc.Realm + "/protocol/openid-connect/token"
-	kcc.UserInfoUrl = kcc.Host + "/realms/" + kcc.Realm + "/protocol/openid-connect/userinfo"
+	kcc.AuthUrl = "/realms/" + kcc.Realm + "/protocol/openid-connect/auth"
+	kcc.TokenUrl = "/realms/" + kcc.Realm + "/protocol/openid-connect/token"
+	kcc.UserInfoUrl = "/realms/" + kcc.Realm + "/protocol/openid-connect/userinfo"
 
 	return &Config{
 		Keycloak: &kcc,

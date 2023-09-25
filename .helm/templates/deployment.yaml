@@ -23,3 +23,7 @@ spec:
           image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
           imagePullPolicy: {{ .Values.deployment.image.pullPolicy | quote }}
           env: {{ toYaml .Values.deployment.env | nindent 12 }}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+              name: http

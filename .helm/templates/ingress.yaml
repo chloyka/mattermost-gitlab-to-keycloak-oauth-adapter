@@ -1,98 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mattermost-team-edition-1695433149
+  name: mattermost-gitlab-to-keycloak-oauth-adapter
   namespace: mattermost
-  labels:
-    app.kubernetes.io/instance: mattermost-team-edition-1695433149
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: mattermost-team-edition
-    helm.sh/chart: mattermost-team-edition-6.6.36
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    meta.helm.sh/release-name: mattermost-team-edition-1695433149
-    meta.helm.sh/release-namespace: mattermost
-    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
-  managedFields:
-    - manager: helm
-      operation: Update
-      apiVersion: networking.k8s.io/v1
-      time: '2023-09-23T01:39:19Z'
-      fieldsType: FieldsV1
-      fieldsV1:
-        f:metadata:
-          f:annotations:
-            .: {}
-            f:meta.helm.sh/release-name: {}
-            f:meta.helm.sh/release-namespace: {}
-            f:nginx.ingress.kubernetes.io/ssl-redirect: {}
-          f:labels:
-            .: {}
-            f:app.kubernetes.io/instance: {}
-            f:app.kubernetes.io/managed-by: {}
-            f:app.kubernetes.io/name: {}
-            f:helm.sh/chart: {}
-        f:spec:
-          f:ingressClassName: {}
-    - manager: node-fetch
-      operation: Update
-      apiVersion: networking.k8s.io/v1
-      time: '2023-09-23T01:57:10Z'
-      fieldsType: FieldsV1
-      fieldsV1:
-        f:metadata:
-          f:annotations:
-            f:cert-manager.io/cluster-issuer: {}
-        f:spec:
-          f:rules: {}
-          f:tls: {}
-  selfLink: >-
-    /apis/networking.k8s.io/v1/namespaces/mattermost/ingresses/mattermost-team-edition-1695433149
-status:
-  loadBalancer: {}
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - icq.chloyka.com
-      secretName: icq.chloyka.com-tls
-    - hosts:
-        - sms.chloyka.com
-      secretName: sms.chloyka.com-tls
-    - hosts:
-        - qip.chloyka.com
-      secretName: qip.chloyka.com-tls
+        - gitlab.chloyka.com
+      secretName: gitlab.chloyka.com-tls
   rules:
-    - host: icq.chloyka.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mattermost-team-edition
-                port:
-                  number: 8065
-    - host: sms.chloyka.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mattermost-team-edition
-                port:
-                  number: 8065
-    - host: quip.chloyka.com
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: mattermost-team-edition
-                port:
-                  number: 8065
     - host: gitlab.chloyka.com
       http:
         paths:
@@ -102,4 +21,4 @@ spec:
               service:
                 name: mattermost-gitlab-to-keycloak-oauth-adapter
                 port:
-                  number: 80
+                  name: http
