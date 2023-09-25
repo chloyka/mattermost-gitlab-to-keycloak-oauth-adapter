@@ -31,7 +31,7 @@ func main() {
 		defer log.Info("request", zap.String("method", r.Method), zap.String("url", r.URL.String()), zap.Int("status", w.(*responseWriterWithStatusCode).statusCode))
 
 		if r.URL.Path == "/oauth/authorize" {
-			w.Header().Set("Location", fmt.Sprintf("%s?%s", config.Keycloak.AuthUrl, r.URL.RawQuery))
+			w.Header().Set("Location", fmt.Sprintf("%s%s?%s", config.Keycloak.Host, config.Keycloak.AuthUrl, r.URL.RawQuery))
 			w.WriteHeader(http.StatusTemporaryRedirect)
 			log.Debug("requesting authorize", zap.String("url", r.URL.String()), zap.String("redirectUrl", w.Header().Get("Location")))
 			return
