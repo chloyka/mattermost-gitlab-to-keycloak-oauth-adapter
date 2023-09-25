@@ -1,19 +1,17 @@
 name: "mattermost-gitlab-to-keycloak-oauth-adapter"
 
 deployment:
-  name: "mattermost-gitlab-to-keycloak-oauth-adapter"
   replicas: 1
-  annotations: { }
-  labels: { }
-  affinity: { }
-  nodeSelector: { }
-  tolerations: [ ]
+  annotations: {}
+  labels: {}
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
   image:
     repository: "ghcr.io/chloyka/mattermost-gitlab-to-keycloak-oauth-adapter"
     tag: "master"
     pullPolicy: IfNotPresent
-    pullSecrets: [ ]
-  env: [ ]
+  env: []
 
 service:
   name: "mattermost-gitlab-to-keycloak-oauth-adapter"
@@ -21,18 +19,13 @@ service:
   port: 80
 
 ingress:
-  enabled: false
-  ingressClassName: ""
-  tls: [ ]
-  annotations: {}
+  enabled: true
+  ingressClassName: "nginx"
+  tls: []
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
   rules:
-    - host: "gitlab.local"
+    - host: your-hostname.com
       http:
         paths:
           - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: "mattermost-gitlab-to-keycloak-oauth-adapter"
-                port:
-                  number: 80

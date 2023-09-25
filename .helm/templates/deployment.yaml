@@ -1,22 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.name | quote }}
+  name: {{ .Values.name | quote }}
+  annotations: {{ toYaml .Values.deployment.annotations | nindent 4 }}
+  labels:
+    app: {{ .Values.name | quote }}
 spec:
-  replicas: {{ .Values.deployment.replicas | default 1 }}
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      service: {{ .Values.deployment.name | quote }}
+      app: {{ .Values.name | quote }}
   template:
     metadata:
-      annotations: {{ .Values.deployment.annotations | toYaml | nindent 8 }}
-      labels: {{ .Values.deployment.labels | toYaml | nindent 8 }}
+      labels:
+        app: {{ .Values.name | quote }}
     spec:
-      affinity: {{- .Values.deployment.affinity | toYaml | nindent 8 }}
-      tolerations: {{- .Values.deployment.tolerations | toYaml | nindent 8 }}
-      nodeSelector: {{- toYaml .Values.deployment.nodeSelector | nindent 8 }}
+      affinity: {{ toYaml .Values.deployment.affinity | nindent 8 }}
+      nodeSelector: {{ toYaml .Values.deployment.nodeSelector | nindent 8 }}
+      tolerations: {{ toYaml .Values.deployment.tolerations | nindent 8 }}
       containers:
-        - name: {{ .Values.deployment.name | quote }}
-          image:  "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
-          imagePullPolicy: {{ .Values.deployment.image.pullPolicy | default "IfNotPresent" | quote }}
-          env: {{ .Values.deployment.env | toYaml | nindent 12 }}
+        - name: {{ .Values.name | quote }}
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy | quote }}
+          env: {{ toYaml .Values.deployment.env | nindent 12 }}

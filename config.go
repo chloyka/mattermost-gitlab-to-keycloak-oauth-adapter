@@ -2,6 +2,7 @@ package main
 
 type Config struct {
 	Keycloak *Keycloak
+	Logger   *LoggerConfig
 }
 
 type Keycloak struct {
@@ -11,6 +12,18 @@ type Keycloak struct {
 	TokenUrl    string
 	UserInfoUrl string
 }
+
+type LoggerConfig struct {
+	Level LoggerLevel
+}
+
+type LoggerLevel string
+
+const (
+	LoggerLevelDebug  LoggerLevel = "debug"
+	LoggerLevelInfo   LoggerLevel = "info"
+	LoggerLevelSilent LoggerLevel = "silent"
+)
 
 func newAppConfig() *Config {
 	kcc := Keycloak{
@@ -24,5 +37,8 @@ func newAppConfig() *Config {
 
 	return &Config{
 		Keycloak: &kcc,
+		Logger: &LoggerConfig{
+			Level: LoggerLevel(getEnv("LOG_LEVEL", "debug")),
+		},
 	}
 }
